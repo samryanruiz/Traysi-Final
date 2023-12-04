@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { SafeAreaView, View, Text, Image, StyleSheet } from 'react-native';
-import ICON from './assets/icon.png';
-import SplashScreen from './screens/SplashScreen';
-import MapScreen from './screens/MapScreen';
-import AdditionalSplashScreen from './screens/AdditionalSplashScreen';
-import Status from './components/Status';
-
+import React, { useState, useEffect } from "react";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+import ICON from "./assets/icon.png";
+import SplashScreen from "./screens/SplashScreen";
+import MapScreen from "./screens/MapScreen";
+import AdditionalSplashScreen from "./screens/AdditionalSplashScreen";
+import AboutUsScreen from "./screens/AboutUsScreen"; // Import the AboutUsScreen component
+import Status from "./components/Status";
 
 const SplashStack = createStackNavigator();
 function SplashStackScreen() {
@@ -52,8 +60,8 @@ function MainDrawerNavigator() {
         },
       }}
     >
-      <Drawer.Screen name="MapScreen" component={MapScreen} />
-      {/* Add other screens that should have the drawer here */}
+      <Drawer.Screen name="Map" component={MapScreen} />
+      <Drawer.Screen name="About Us" component={AboutUsScreen} />
     </Drawer.Navigator>
   );
 }
@@ -89,6 +97,19 @@ function CustomDrawerContent(props) {
           E-TRAYSI
         </Text>
       </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => props.navigation.navigate("Map")}
+      >
+        <Text style={styles.buttonText}>Map</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => props.navigation.navigate("About Us")}
+      >
+        <Text style={styles.buttonText}>About Us</Text>
+      </TouchableOpacity>
       {/* Add other drawer items here */}
     </SafeAreaView>
   );
@@ -108,16 +129,9 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      
-     
- 
       <NavigationContainer>
-        {isSplashComplete ? (
-          <MainDrawerNavigator />
-        ) : (
-          <SplashStackScreen />
-        )}
-         <Status style={styles.inputMethodEditor}/>
+        {isSplashComplete ? <MainDrawerNavigator /> : <SplashStackScreen />}
+        <Status style={styles.inputMethodEditor} />
       </NavigationContainer>
     </Provider>
   );
@@ -126,11 +140,25 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputMethodEditor: {
-  flex: 1,
-  backgroundColor: 'white',
-},});
+    flex: 1,
+    backgroundColor: "white",
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: "#5FC0DE", // Light blue color
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
