@@ -57,8 +57,8 @@ Before you begin, ensure you have the following installed:
 2. Navigate to the project directory:
    `cd Traysi-Final`
 
-3. Add a `.env` file (if required):
-   `Create a `.env` file in the project root and include your Google Maps API key.`
+3. Add a .env file:
+   `Create a .env file in the project root and include your Google Maps API key.`
 
 4. Install dependencies:
    `npm install`
