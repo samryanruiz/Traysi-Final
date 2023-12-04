@@ -1,5 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity} from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import tw from "tailwind-react-native-classnames";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_APIKEY } from "@env";
@@ -13,24 +19,47 @@ const NavigateCard = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [originPlace, setOriginPlace] = useState(null); // New state for the source location
+  const originRef = useRef();
+  const destinationRef = useRef();
 
-  
+  const clearOrigin = () => {
+    originRef.current?.setAddressText('');
+    dispatch(setOrigin(null));
+  };
+
+  const clearDestination = () => {
+    destinationRef.current?.setAddressText('');
+    dispatch(setDestination(null));
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: 1 }}>
       {/* Source location input */}
       <View style={tw`border-t border-gray-200 flex-shrink`}>
-        <View >
+        <View>
           <GooglePlacesAutocomplete
-            placeholder="Where from?" // Change placeholder
-            styles={fromInputBoxStyles} // Define fromInputBoxStyles
+            ref={originRef}
+            placeholder="Where from?"
+            styles={{
+              container: {
+                backgroundColor: "white",
+                paddingTop: 20,
+                flex: 0,
+              },
+              textInput: {
+                backgroundColor: "#DDDDDF",
+                borderRadius: 0,
+                fontSize: 18,
+              },
+              textInputContainer: {
+                paddingHorizontal: 20,
+                paddingBottom: 0,
+              },
+            }}
             fetchDetails={true}
             returnKeyType={"search"}
             minLength={2}
             onPress={(data, details = null) => {
-              setOriginPlace({
-                location: details.geometry.location,
-                description: data.description,
-              });
               dispatch(
                 setOrigin({
                   location: details.geometry.location,
@@ -39,48 +68,41 @@ const NavigateCard = () => {
               );
             }}
             enablePoweredByContainer={false}
-          
             query={{
               key: GOOGLE_MAPS_APIKEY,
               language: "en",
-              components: "country:PH",
-              radius: "100",
             }}
-
-           
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={400}
-            keyboardShouldPersistTaps="always"
-            renderRow={(data) => {
-              // Custom renderRow function to filter results
-              if (data.description.toLowerCase().includes("quezon city")) {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      dispatch(
-                        setOrigin({
-                          location: data.geometry?.location,
-                          description: data.description,
-                        })
-                      );
-                    }}
-                  >
-                
-                    <Text>{data.description}</Text>
-                  </TouchableOpacity>
-                );
-              } else {
-                return null; // Do not render if the result doesn't contain "Quezon City"
-              }
-            }}
+            renderRightButton={() => (
+              <TouchableOpacity onPress={clearOrigin} style={styles.closeButton}>
+                <Icon name="close" type="fontawesome" />
+              </TouchableOpacity>
+            )}
           />
         </View>
 
         {/* Destination location input */}
-        <View >
+        <View>
           <GooglePlacesAutocomplete
-            placeholder="Where from?" // Change placeholder
-            styles={fromInputBoxStyles} // Define fromInputBoxStyles
+            ref={destinationRef}
+            placeholder="Where to?"
+            styles={{
+              container: {
+                backgroundColor: "white",
+                paddingTop: 20,
+                flex: 0,
+              },
+              textInput: {
+                backgroundColor: "#DDDDDF",
+                borderRadius: 0,
+                fontSize: 18,
+              },
+              textInputContainer: {
+                paddingHorizontal: 20,
+                paddingBottom: 0,
+              },
+            }}
             fetchDetails={true}
             returnKeyType={"search"}
             minLength={2}
@@ -100,7 +122,11 @@ const NavigateCard = () => {
             }}
             nearbyPlacesAPI="GooglePlacesSearch"
             debounce={400}
-            keyboardShouldPersistTaps="always" // Add this line
+            renderRightButton={() => (
+              <TouchableOpacity onPress={clearDestination} style={styles.closeButton}>
+                <Icon name="close" type="fontawesome" />
+              </TouchableOpacity>
+            )}
           />
         </View>
 
@@ -112,38 +138,11 @@ const NavigateCard = () => {
 
 export default NavigateCard;
 
-// Define styles for source location input box
-const fromInputBoxStyles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingTop: 20,
-    flex: 0,
-  },
-  textInput: {
-    backgroundColor: "#DDDDDF",
-    borderRadius: 0,
-    fontSize: 18,
-  },
-  textInputContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 0,
+// Define styles for close button
+const styles = StyleSheet.create({
+  closeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
   },
 });
-
-// Define styles for destination location input box (already defined in your code)
-const toInputBoxStyles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingTop: 20,
-    flex: 0,
-  },
-  textInput: {
-    backgroundColor: "#DDDDDF",
-    borderRadius: 0,
-    fontSize: 18,
-  },
-  textInputContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 0,
-  },
-})

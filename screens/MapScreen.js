@@ -16,11 +16,6 @@ const MapScreen = () => {
   const dispatch = useDispatch();
   const origin = useSelector(selectOrigin);
 
-  // You can dispatch actions to set origin and destination as needed
-  // Example:
-  // dispatch(setOrigin({ location: { lat: 12.34, lng: 56.78 } }));
-  // dispatch(setDestination({ location: { lat: 23.45, lng: 67.89 } }));
-
   return (
     <View>
       <View style={tw`h-1/2`}>

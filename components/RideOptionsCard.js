@@ -12,8 +12,8 @@ import {
 import tw from "tailwind-react-native-classnames";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
-import { selectTravelTimeInformation } from "../slices/navSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectTravelTimeInformation, setOrigin, setDestination } from "../slices/navSlice";
 
 const data = [
   {
@@ -30,6 +30,7 @@ const data = [
 
 const RideOptionsCard = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [selected, setSelected] = useState(null);
   const [isDiscounted, setIsDiscounted] = useState(false);
   const travelTimeInformation = useSelector(selectTravelTimeInformation);
@@ -48,11 +49,20 @@ const RideOptionsCard = () => {
     return isDiscounted ? fare * 0.8 : fare; // Apply discount if isDiscounted is true
   };  
 
+  const handleBackPress = () => {
+    // Clear origin and destination in the Redux store
+    dispatch(setOrigin(null));
+    dispatch(setDestination(null));
+    
+    // Navigate back
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={tw`bg-white flex-grow`}>
       <View style={tw`flex-row items-center justify-between p-5`}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={handleBackPress}
           style={tw`rounded-full`}
         >
           <Icon name="chevron-left" type="fontawesome" />
