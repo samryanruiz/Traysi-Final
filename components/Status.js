@@ -30,7 +30,7 @@ export default class Status extends Component {
       isConnected: state.isConnected
     });
 
-    const newStatusBarColor = state.isConnected ? 'blue' : 'red';
+    const newStatusBarColor = state.isConnected ? '#5FC0DE' : '#FF0000';
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000,
