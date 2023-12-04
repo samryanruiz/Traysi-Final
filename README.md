@@ -52,19 +52,19 @@ Before you begin, ensure you have the following installed:
 ### Installation
 
 1. Clone the repository
-   git clone https://github.com/samryanruiz/Traysi-Final.git
+   `git clone https://github.com/samryanruiz/Traysi-Final.git`
 
 2. Navigate to the project directory:
-   cd Traysi-Final
+   `cd Traysi-Final`
 
 3. Add a `.env` file (if required):
-   Create a `.env` file in the project root and include your Google Maps API key.
+   `Create a `.env` file in the project root and include your Google Maps API key.`
 
 4. Install dependencies:
-   npm install
+   `npm install`
 
 5. Start the application:
-   npx expo start
+   `npx expo start`
 
 ## References
 - [Philstar Article](https://www.philstar.com/nation/2023/03/07/2249797/tricycle-drivers-asked-follow-fare-matrix)
