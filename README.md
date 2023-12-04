@@ -52,11 +52,23 @@ Before you begin, ensure you have the following installed:
 ### Installation
 
 1. Clone the repository
-```bash
-git clone
+   git clone https://github.com/samryanruiz/Traysi-Final.git
+
+2. Navigate to the project directory:
+   cd Traysi-Final
+
+3. Add a `.env` file (if required):
+   Create a `.env` file in the project root and include your Google Maps API key.
+
+4. Install dependencies:
+   npm install
+
+5. Start the application:
+   npx expo start
 
 ## References
 - [Philstar Article](https://www.philstar.com/nation/2023/03/07/2249797/tricycle-drivers-asked-follow-fare-matrix)
 - [Reddit Discussion](https://www.reddit.com/r/Philippines/comments/1567wov/city_tricycles_are_annoyingly_overpriced/)
+- [Tricycle Fare Matrix](https://quezoncity.gov.ph/wp-content/uploads/2022/07/SP-3131-S-2022.pdf)
 
 ---
